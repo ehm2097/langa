@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class Application {
     public static void main(String[] args) {
-        FrameFactory factory = new FrameFactory();
-        JFrame frame = factory.create();
+        var factory = new FrameFactory();
+        var frame = factory.create();
         frame.pack();
         frame.setVisible(true);
     }
