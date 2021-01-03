@@ -9,13 +9,13 @@ import java.awt.event.ComponentEvent;
 public class NodeContainer {
 
     public NodeContainer() {
-        innerPanel = new JPanel();
-        innerPanel.setLayout(new FlowLayout());
+        innerPanel = new ScrollablePanel();
+        innerPanel.setLayout(new HalfScrollLayout(33));
         innerPanel.setBackground(Color.GREEN);
 
         outerPanel = new JScrollPane(innerPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         outerPanel.setBackground(Color.CYAN);
         outerPanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -23,10 +23,11 @@ public class NodeContainer {
             }
         });
 
+
     }
 
     public void addToParent(Container parent) {
-        parent.add(outerPanel);
+        parent.add(outerPanel, BorderLayout.CENTER);
     }
 
     public void setNodeView(NodeView nodeView) {
@@ -55,4 +56,32 @@ public class NodeContainer {
 
     private JScrollPane outerPanel;
     private Container innerPanel;
+
+    private class ScrollablePanel extends JPanel implements Scrollable {
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 1;
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 1;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return true;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
+    }
 }
